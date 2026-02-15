@@ -1,0 +1,63 @@
+# Patterns to ignore when indexing codebase
+
+# Dependencies
+node_modules/
+vendor/
+__pycache__/
+*.pyc
+.pyo
+.pyd
+
+# Build outputs
+dist/
+build/
+out/
+target/
+*.o
+*.so
+*.dll
+*.exe
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Secrets (never index these)
+*.pem
+*.key
+credentials.json
+secrets.json
+secrets.yaml
+secrets.yml
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+.coverage
+htmlcov/
+.nyc_output/
+
+# Cache
+.cache/
+.pytest_cache/
+.mypy_cache/
+
+# Large files
+*.min.js
+*.min.css
+*.map
+
+# Generated files
+*.generated.*
