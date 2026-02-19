@@ -88,6 +88,33 @@ Location: `.kilocode/project-state.md`
 - WRITE after sprints, major decisions
 - Contains: environment, stack, requirements, decisions, history
 
+## State Updates
+
+- Append new state; never delete history
+- Use strikethrough for obsolete items: ~~obsolete item~~
+- Add "Superseded by: [link]" for updated decisions
+
+## Operation Batching
+
+When gathering context:
+
+1. Identify all needed files/operations
+2. Batch independent reads
+3. Process together
+4. Report findings in single response
+
+**Example**:
+
+```
+❌ Read file1 → analyze → read file2 → analyze
+✅ Read file1, file2, file3 → analyze all together
+```
+
+Dependencies must be sequential:
+
+- Read config → use config values in next call
+- Write file → read file for verification
+
 ## Quality Gates
 
 Before any commit:
@@ -121,3 +148,7 @@ Before any commit:
 **Velocity**: [points] points
 **Next**: [recommendations]
 ```
+
+## Related Files
+
+- [`context-optimization.md`](context-optimization.md) — Context optimization rules for KV cache efficiency and U-shaped attention patterns

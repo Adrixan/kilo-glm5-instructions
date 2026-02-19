@@ -5,7 +5,8 @@ Optimized instruction set for the GLM-5 model, designed for use with the [Kilo V
 ## What This Repository Provides
 
 - **Domain-specific coding rules** - Comprehensive rules for security, accessibility, frontend, backend, DevOps, and scripting
-- **Project templates** - Ready-to-use templates for project state tracking
+- **LLM Context Tax optimization** - Rules and templates optimized to reduce token usage and improve response quality
+- **Project templates** - Ready-to-use templates for code, tests, analysis, documentation, and more
 - **Agent configuration** - Pre-configured agent settings for project-level customization
 - **Custom instructions** - IDE-wide custom instructions for GLM-5 optimization
 
@@ -138,9 +139,18 @@ kilo-glm5-instructions/
 │   ├── frontend.md              # Frontend development
 │   ├── devops.md                # DevOps/IaC
 │   ├── scripting.md             # Bash/PowerShell
-│   └── code-mode.md             # Code mode specific rules
+│   ├── code-mode.md             # Code mode specific rules
+│   ├── context-optimization.md  # LLM context optimization rules
+│   ├── tool-design.md           # Tool design patterns
+│   └── data-processing.md       # Data cleaning and processing
 └── templates/                   # Project templates
-    └── project-state.md         # State tracking template
+    ├── project-state.md         # State tracking template
+    ├── code-template.md         # Code file template
+    ├── test-template.md         # Test file template
+    ├── analysis-template.md     # Analysis report template
+    ├── document-template.md     # General document template
+    ├── api-response-template.md # API response template
+    └── subagent-task-template.md # Subagent task delegation
 ```
 
 ## Rule Loading Priority
@@ -186,6 +196,56 @@ These instructions are optimized for the GLM-5 model:
 - **Redundant sections** → Merged
 - **Examples inline** → Referenced separately
 - **Token reduction**: ~40% while preserving all rules
+
+## LLM Context Tax Optimization
+
+This repository implements strategies from the ["LLM Context Tax" blog post](https://blog.nicolabus.com/llm-context-tax) by Nicolas Bustamante, which identifies 13 patterns that waste tokens and degrade LLM performance. While GLM-5 is a free model, these optimizations still provide significant benefits:
+
+- **Reduced latency** - Smaller contexts process faster
+- **Better quality** - Avoids "lost-in-the-middle" attention degradation
+- **Improved consistency** - Templates reduce generation variance
+
+### Key Optimization Strategies Implemented
+
+| Strategy | Implementation | Benefit |
+|----------|----------------|---------|
+| **Stable Prefixes** | [`rules/context-optimization.md`](rules/context-optimization.md) | KV cache hits for repeated prompts |
+| **Append-Only Context** | [`rules/context-optimization.md`](rules/context-optimization.md) | Cache preservation on updates |
+| **U-Shaped Attention** | All rule files restructured | Critical content at top/bottom |
+| **Output Token Budgeting** | [`custom-instructions.md`](custom-instructions.md) | Concise responses by default |
+| **Data Cleaning** | [`rules/data-processing.md`](rules/data-processing.md) | 40-80% token reduction on inputs |
+| **Precise Tools** | [`rules/tool-design.md`](rules/tool-design.md) | Two-phase pattern for large data |
+| **Reusable Templates** | [`templates/`](templates/) | 5x token savings vs regeneration |
+| **Parallel Tool Calls** | [`rules/tool-design.md`](rules/tool-design.md) | Fewer round trips |
+
+### New Rule Files
+
+Three new rule files provide comprehensive context optimization:
+
+- **[`rules/context-optimization.md`](rules/context-optimization.md)** - KV cache optimization, U-shaped attention patterns, context size awareness, and GLM-5 specific optimizations
+- **[`rules/tool-design.md`](rules/tool-design.md)** - Two-phase tool pattern, response size limits, parallel execution, and output storage strategies
+- **[`rules/data-processing.md`](rules/data-processing.md)** - Data cleaning before context, format conversion, whitespace normalization, and token estimation
+
+### New Templates
+
+Six new templates follow the U-shaped attention pattern (critical content at top/bottom):
+
+| Template | Purpose |
+|----------|---------|
+| [`templates/code-template.md`](templates/code-template.md) | Structured code file template with header, implementation, and exports |
+| [`templates/test-template.md`](templates/test-template.md) | Test file template with Arrange-Act-Assert structure |
+| [`templates/analysis-template.md`](templates/analysis-template.md) | Analysis report template with findings, metrics, and recommendations |
+| [`templates/document-template.md`](templates/document-template.md) | General document template with executive summary and version control |
+| [`templates/api-response-template.md`](templates/api-response-template.md) | API response template with success/error structures |
+| [`templates/subagent-task-template.md`](templates/subagent-task-template.md) | Task delegation template with context, instructions, and completion report |
+
+### Context Size Guidelines
+
+| Zone | Token Range | Quality Level | Action |
+|------|-------------|---------------|--------|
+| Optimal | <50K | Full quality | Normal operation |
+| Acceptable | 50K-100K | Slight degradation | Consider summarization |
+| Degraded | >100K | Significant degradation | Compact immediately |
 
 ## Troubleshooting
 
@@ -242,3 +302,4 @@ This project is licensed under the GNU Affero General Public License v3.0 - see 
 - [Kilo VS Code Extension](https://github.com/kilocode/kilo)
 - [Kilo Documentation](https://docs.kilocode.ai)
 - [Git Submodules Guide](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
+- [LLM Context Tax Blog Post](https://blog.nicolabus.com/llm-context-tax) - Nicolas Bustamante's analysis of token optimization strategies
